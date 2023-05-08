@@ -2,10 +2,11 @@ from bs4 import BeautifulSoup
 import json
 
 NB_ARTICLES = 16
-PATH = "./articles/figaro/"
+PATH_ARTICLES = "./articles/figaro/"
+PATH_DATA = "./data/figaro/"
 
 for i in range(1, NB_ARTICLES + 1):
-    with open(PATH + str(i) + '.htm', encoding='utf-8') as fp:
+    with open(PATH_ARTICLES + str(i) + '.htm', encoding='utf-8') as fp:
         soup = BeautifulSoup(fp, 'html.parser')
         title = soup.find('h1', class_='fig-headline').text.replace('\n', ' ')
         paragraphs = []
@@ -16,7 +17,7 @@ for i in range(1, NB_ARTICLES + 1):
             paragraphs.append(p.text.replace('\n', ' '))
         article = ''.join(paragraphs)
         data = {'title': title, 'article': article}
-        with open(PATH + str(i) + '.json', 'w', encoding='utf-8') as f:
+        with open(PATH_DATA + str(i) + '.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
 
