@@ -2,7 +2,7 @@ import json
 from collections import Counter
 import re
 from nltk.corpus import stopwords
-import spacy
+import matplotlib.pyplot as plt
 
 
 medias = {
@@ -14,13 +14,8 @@ medias = {
 french_stopwords = set(stopwords.words("french"))
 english_stopwords = set(stopwords.words("english"))
 
-nlp = spacy.load("en_core_web_sm")
-# excluded tags
-excluded_tags = {"ADV", "PROPN"}
 
-# same for the french language
-nlp_fr = spacy.load("fr_core_news_sm")
-
+media_counter = []
 for media in medias:
     titles = []
     articles = []
@@ -52,15 +47,51 @@ for media in medias:
                     if word not in french_stopwords and word not in english_stopwords
                 ]
             )
-            new_article = []
-            model = nlp_fr
-            if media == "ny":
-                model = nlp
-            for token in model(article):
-                if token.pos_ not in excluded_tags:
-                    new_article.append(token.text)
-            article = " ".join(new_article)
             titles.append(title)
             articles.append(article)
-    # print("Media : ", media, Counter(" ".join(titles).split()).most_common(8))
-    print("Media : ", media, Counter(" ".join(articles).split()).most_common(8))
+    media_counter.append(
+        {"media": media, "counter": Counter(" ".join(articles).split()).most_common(20)}
+    )
+
+
+media1 = media_counter[0]["media"]
+counter1 = media_counter[0]["counter"]
+
+media2 = media_counter[1]["media"]
+counter2 = media_counter[1]["counter"]
+
+media3 = media_counter[2]["media"]
+counter3 = media_counter[2]["counter"]
+
+
+# Extract words and their counts for each media
+words_1, counts_1 = zip(*counter1)
+words_2, counts_2 = zip(*counter2)
+words_3, counts_3 = zip(*counter3)
+
+# Create subplots
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
+
+# Plot for 'temps' media
+ax1.bar(words_1, counts_1)
+ax1.set_title("Most Used Words - {}".format(media1))
+
+# Plot for 'figaro' media
+ax2.bar(words_2, counts_2)
+ax2.set_title("Most Used Words - {}".format(media2))
+
+# Plot for 'ny' media
+ax3.bar(words_3, counts_3)
+ax3.set_title("Most Used Words - {}".format(media3))
+
+ax1.tick_params(axis="x", labelrotation=45)
+ax2.tick_params(axis="x", labelrotation=45)
+ax3.tick_params(axis="x", labelrotation=45)
+plt.subplots_adjust(hspace=0.5)
+
+# Adjust spacing between subplots
+plt.tight_layout()
+
+
+# save the plot
+plt.savefig("most_used_words.png")
