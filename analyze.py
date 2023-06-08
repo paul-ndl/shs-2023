@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 medias = {
     "temps": ["./data/temps/", 14],
     "figaro": ["./data/figaro/", 16],
-    "ny": ["./data/ny/", 16],
+    "ny": ["./data/ny/", 15],
 }
 
 french_stopwords = set(stopwords.words("french"))

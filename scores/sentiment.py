@@ -7,9 +7,9 @@ sentiment_pipeline = pipeline(
 
 # retrieve the titles and articles for each media
 medias = {
-    "temps": ["./data/temps/", 14],
-    "figaro": ["./data/figaro/", 16],
-    "ny": ["./data/ny/", 16],
+    "temps": ["../data/temps/", 14],
+    "figaro": ["../data/figaro/", 16],
+    "ny": ["../data/ny/", 15],
 }
 
 

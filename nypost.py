@@ -3,7 +3,7 @@ import json
 
 PATH_ARTICLES = "./articles/nypost/"
 PATH_DATA = "./data/ny/"
-nb_articles = 7
+nb_articles = 6
 
 for i in range(1, nb_articles + 1):
     with open(PATH_ARTICLES + str(i) + ".htm", encoding="utf-8") as f:
