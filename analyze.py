@@ -75,20 +75,25 @@ words_1, counts_1 = zip(*counter1)
 words_2, counts_2 = zip(*counter2)
 words_3, counts_3 = zip(*counter3)
 
+match_medias = {
+    "temps": "Suisse",
+    "figaro": "France",
+    "ny": "Etats Unis",
+}
 # Create subplots
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
 
 # Plot for 'temps' media
 ax1.bar(words_1, counts_1)
-ax1.set_title("Most Used Words - {}".format(media1))
+ax1.set_title(match_medias[media1])
 
 # Plot for 'figaro' media
 ax2.bar(words_2, counts_2)
-ax2.set_title("Most Used Words - {}".format(media2))
+ax2.set_title(match_medias[media2])
 
 # Plot for 'ny' media
 ax3.bar(words_3, counts_3)
-ax3.set_title("Most Used Words - {}".format(media3))
+ax3.set_title(match_medias[media3])
 
 ax1.tick_params(axis="x", labelrotation=45)
 ax2.tick_params(axis="x", labelrotation=45)
@@ -96,7 +101,12 @@ ax3.tick_params(axis="x", labelrotation=45)
 plt.subplots_adjust(hspace=0.5)
 
 # Adjust spacing between subplots
-plt.tight_layout()
+fig.tight_layout(pad=3.0)
+
+# Add a title to the figure with 15pt font size
+fig.suptitle("Mots les plus utilisés dans les articles", fontsize=17)
+# add more space between the suptitle and the subplots
+fig.subplots_adjust(top=0.88)
 
 
 # save the plot

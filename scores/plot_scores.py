@@ -3,9 +3,6 @@ import json
 import pandas as pd
 import numpy as np
 
-# remove the warning
-pd.options.mode.chained_assignment = None
-
 
 # read the json file
 with open("articles_scores.json", encoding="utf-8") as f:
@@ -20,38 +17,76 @@ def absolute_value(val, nb_articles):
     return a
 
 
-def save_plot(df, media):
-    filtered_df = df[df["media"] == media]
-    n = len(filtered_df)
-    # round the average stars to the nearest integer
-    filtered_df["avg_stars"] = filtered_df["avg_stars"].round()
-    # count the number of articles for each average stars
-    filtered_df = filtered_df.groupby("avg_stars").count()
-    # plot the results
-    filtered_df.plot.pie(
-        y="title",
-        figsize=(5, 5),
-        autopct=lambda val: absolute_value(val, n),
-        shadow=True,
-        startangle=90,
-        labels=None,
-    )
-    # modify the legend
-    plt.legend(
-        loc="upper left",
-        labels=["1 étoile", "2 étoiles", "3 étoiles"],
-        bbox_to_anchor=(-0.1, 0, 0, 1.1),
-    )
-    plt.title("Media : " + media)
-    plt.ylabel("")
-    plt.savefig(media + ".png")
+# create a single subplot for all three pie charts
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 3))
 
+# =============================================================================
+temps_df = df[df["media"] == "temps"]
+n = len(temps_df)
+# round the average stars to the nearest integer
+temps_df["avg_stars"] = temps_df["avg_stars"].round()
+# count the number of articles for each average stars
+temps_df = temps_df.groupby("avg_stars").count()
+# plot the results
+temps_df.plot.pie(
+    y="title",
+    ax=ax1,
+    autopct="%1.1f%%",
+    shadow=True,
+    startangle=90,
+    labels=None,
+)
+# modify the legend
+ax1.set_title("Suisse")
+ax1.set_ylabel("")
 
-# plot the results for the "temps" media using pie chart
-save_plot(df, "temps")
+# =============================================================================
 
-# plot the results for the "figaro" media using pie chart
-save_plot(df, "figaro")
+figaro_df = df[df["media"] == "figaro"]
+n = len(figaro_df)
+# round the average stars to the nearest integer
+figaro_df["avg_stars"] = figaro_df["avg_stars"].round()
+# count the number of articles for each average stars
+figaro_df = figaro_df.groupby("avg_stars").count()
+# plot the results
+figaro_df.plot.pie(
+    y="title",
+    ax=ax2,
+    autopct="%1.1f%%",
+    shadow=True,
+    startangle=90,
+    labels=None,
+)
+# modify the legend
+ax2.set_title("France")
+ax2.set_ylabel("")
 
-# plot the results for the "ny" media using pie chart
-save_plot(df, "ny")
+#  =============================================================================
+ny_df = df[df["media"] == "ny"]
+n = len(ny_df)
+# round the average stars to the nearest integer
+ny_df["avg_stars"] = ny_df["avg_stars"].round()
+# count the number of articles for each average stars
+ny_df = ny_df.groupby("avg_stars").count()
+# plot the results
+ny_df.plot.pie(
+    y="title",
+    ax=ax3,
+    autopct="%1.1f%%",
+    shadow=True,
+    startangle=90,
+    labels=None,
+)
+# modify the legend
+ax3.set_title("Etats Unis")
+ax3.set_ylabel("")
+
+ax1.legend().set_visible(False)
+ax2.legend().set_visible(False)
+plt.legend(
+    loc="upper left",
+    labels=["1 étoile", "2 étoiles", "3 étoiles"],
+    bbox_to_anchor=(1, -0.6, 0, 1.1),
+)
+plt.subplots_adjust(wspace=-0.5)
+plt.savefig("scores.png")
