@@ -33,7 +33,10 @@ for media in medias:
                 [
                     word
                     for word in title.split()
-                    if word not in french_stopwords and word not in english_stopwords
+                    if word not in french_stopwords
+                    and word not in english_stopwords
+                    and word != "federer"
+                    and word != "roger"
                 ]
             )
             article = article.replace("’", " ").replace("'", " ")
@@ -44,7 +47,10 @@ for media in medias:
                 [
                     word
                     for word in article.split()
-                    if word not in french_stopwords and word not in english_stopwords
+                    if word not in french_stopwords
+                    and word not in english_stopwords
+                    and word != "federer"
+                    and word != "roger"
                 ]
             )
             titles.append(title)
