@@ -83,6 +83,11 @@ match_medias = {
 # Create subplots
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
 
+max_count = max(max(counts_1) + 10, max(counts_2) + 10, max(counts_3) + 10)
+ax1.set_ylim([0, max_count])
+ax2.set_ylim([0, max_count])
+ax3.set_ylim([0, max_count])
+
 # Plot for 'temps' media
 ax1.bar(words_1, counts_1)
 ax1.set_title(match_medias[media1])
